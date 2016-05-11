@@ -705,7 +705,7 @@
           });
         };
 
-        this.renderGeoChart = function (chart) {
+        this.renderGeoChart = function (chart,callback) {
           waitForLoaded(function () {
             var chartOptions = {
               legend: "none",
@@ -723,6 +723,8 @@
             chart.chart = new google.visualization.GeoChart(chart.element);
             resize(function () {
               chart.chart.draw(data, options);
+
+              callback({target:chart});
             });
           });
         };
