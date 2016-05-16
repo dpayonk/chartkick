@@ -705,7 +705,7 @@
           });
         };
 
-        this.renderGeoChart = function (chart,callback) {
+        this.renderGeoChart = function (chart) {
           waitForLoaded(function () {
             var chartOptions = {
               legend: "none",
@@ -723,8 +723,7 @@
             chart.chart = new google.visualization.GeoChart(chart.element);
             resize(function () {
               chart.chart.draw(data, options);
-
-              callback({target:chart});
+              chart.onComplete.call(chart,{target:chart});
             });
           });
         };
@@ -1256,6 +1255,15 @@
     chart.getChartObject = function () {
       return chart.chart;
     };
+
+    chart.onComplete = function(event) {
+      try{
+        opts.onComplete.call(chart,event);
+      }catch(exc){
+
+      }
+    };
+
     Chartkick.charts[element.id] = chart;
     fetchDataSource(chart, callback);
   }
